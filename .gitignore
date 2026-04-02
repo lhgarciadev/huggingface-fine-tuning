@@ -36,7 +36,6 @@ htmlcov/
 
 # Project specific
 trail_classifier/
-status.csv
 
 # Model files
 *.bin
