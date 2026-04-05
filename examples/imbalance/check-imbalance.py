@@ -2,7 +2,7 @@ import pandas as pd
 
 # Load your CSV with pandas
 # df = pd.read_csv('status.csv')
-df = pd.read_csv("imbalanced.csv")
+df = pd.read_csv("examples/imbalance/imbalanced.csv")
 
 # 1. Check class distribution in one line
 print("Class distribution:")

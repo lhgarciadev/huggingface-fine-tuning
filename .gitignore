@@ -36,6 +36,7 @@ htmlcov/
 
 # Project specific
 trail_classifier/
+examples/training/lab1_classifier/
 
 # Model files
 *.bin
@@ -56,3 +57,5 @@ Thumbs.db
 
 # uv
 .uv/
+examples/transform/status.cleaned.csv
+examples/transform/status.cleaned.mixed.csv

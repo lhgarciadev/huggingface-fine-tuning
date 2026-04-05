@@ -3,7 +3,7 @@ from openai import OpenAI
 client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
 
 
-def paraphrase_with_ollama(text, num_variations=3, model="qwen3-coder"):
+def paraphrase_with_ollama(text, num_variations=3, model="qwen3-coder:0.6b"):
     response = client.chat.completions.create(
         model=model,
         messages=[
