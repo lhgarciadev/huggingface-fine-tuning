@@ -120,18 +120,18 @@ Fine-tune transformer models using the Trainer API. Configure training parameter
 - `2.2.8-quiz.yml` — Knowledge check
 - `2.2.9-reflection.md` — Reflection questions
 
-**Lab:** [Lab 5: Advanced Training and Callbacks](../labs/lab-5.md)
+**Lab:** [Lab 4.5: Local Training Job Monitoring](../labs/lab-4.5.md)
 
 ---
 
-### 2.3 Callbacks and Debugging
+### 2.3 Advanced Training and Callbacks
 
 | # | Video | Duration | Description |
 |---|-------|----------|-------------|
-| 2.3.1 | `introduction.mp4` | - | Introduction to callbacks |
-| 2.3.2 | `using-callbacks.mp4` | - | Built-in and custom callbacks |
-| 2.3.3 | `adding-specific-logging.mp4` | - | TensorBoard, WandB, and custom logging |
-| 2.3.4 | `debugging-training.mp4` | - | Debugging common training issues |
+| 2.3.1 | `introduction.mp4` | - | Introduction to training optimization |
+| 2.3.2 | `understanding-metrics.mp4` | - | Evaluation metrics (accuracy, F1, precision, recall) |
+| 2.3.3 | `optimizer-selection.mp4` | - | AdamW, learning rate schedules, weight decay |
+| 2.3.4 | `mixed-precision-training.mp4` | - | FP16 training for faster performance |
 | 2.3.5 | `summary.mp4` | - | Module summary and key takeaways |
 
 **Resources:**
@@ -139,6 +139,26 @@ Fine-tune transformer models using the Trainer API. Configure training parameter
 - `2.3.7-lab.md` — Hands-on lab exercises
 - `2.3.8-quiz.yml` — Knowledge check
 - `2.3.9-reflection.md` — Reflection questions
+
+**Lab:** [Lab 5: Advanced Training and Callbacks](../labs/lab-5.md)
+
+---
+
+### 2.4 Callbacks and Debugging
+
+| # | Video | Duration | Description |
+|---|-------|----------|-------------|
+| 2.4.1 | `introduction.mp4` | - | Introduction to callbacks |
+| 2.4.2 | `using-callbacks.mp4` | - | Built-in and custom callbacks |
+| 2.4.3 | `adding-specific-logging.mp4` | - | TensorBoard, WandB, and custom logging |
+| 2.4.4 | `debugging-training.mp4` | - | Debugging common training issues |
+| 2.4.5 | `summary.mp4` | - | Module summary and key takeaways |
+
+**Resources:**
+- `2.4.6-key-terms.md` — Key terminology
+- `2.4.7-lab.md` — Hands-on lab exercises
+- `2.4.8-quiz.yml` — Knowledge check
+- `2.4.9-reflection.md` — Reflection questions
 
 **Lab:** [Lab 5: Advanced Training and Callbacks](../labs/lab-5.md) (continued)
 
@@ -224,8 +244,10 @@ Module 2: Training
 ├── 2.1 Trainer API
 │   └── Lab 4: Training with Trainer API
 ├── 2.2 Training Optimization
+│   └── Lab 4.5: Local Training Job Monitoring
+├── 2.3 Advanced Training and Callbacks
 │   └── Lab 5: Advanced Training (Part 1)
-└── 2.3 Callbacks and Debugging
+└── 2.4 Callbacks and Debugging
     └── Lab 5: Advanced Training (Part 2)
 
 Module 3: Publishing

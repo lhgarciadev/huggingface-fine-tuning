@@ -14,6 +14,8 @@ By the end of this lab, you will be able to:
 
 ## Prerequisites
 
+Before starting this lab, complete [Lab 4.5: Local Training Job Monitoring](./lab-4.5.md).
+
 Make sure you have the required dependencies installed:
 
 ```bash

@@ -131,6 +131,7 @@ uv run python examples/inferencing/predict.py
 | [Lab 2](./labs/lab-2.md) | Transformations and Tokenization | `transform/`, `tokenize/` |
 | [Lab 3](./labs/lab-3.md) | Custom Datasets and Augmentation | `augment/`, `imbalance/` |
 | [Lab 4](./labs/lab-4.md) | Training with Trainer API | `training/`, `models/` |
+| [Lab 4.5](./labs/lab-4.5.md) | Local Training Job Monitoring | `training/` |
 | [Lab 5](./labs/lab-5.md) | Advanced Training and Callbacks | `custom/`, `callback/` |
 | [Lab 6](./labs/lab-6.md) | Publishing Models | `publishing/` |
 
