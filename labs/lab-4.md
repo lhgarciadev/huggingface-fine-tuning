@@ -124,8 +124,6 @@ tokenizer.save_pretrained("./trail_classifier")
 
 ### Exercise 5: Running Inference
 
-Navigate to the [examples/inferencing](../examples/inferencing/) directory.
-
 1. Study [inference.py](../examples/inferencing/inference.py):
 
 ```python
@@ -161,11 +159,13 @@ for text in test_cases:
     print(f"'{text}' -> {status} ({confidence:.1%} confidence)")
 ```
 
-2. Run inference on your trained model:
+2. Run inference on your trained model from the repo root:
 
 ```bash
-python inference.py trail_classifier
+uv run python examples/inferencing/inference.py trail_classifier
 ```
+
+The script resolves local model folders from common example directories, so it works whether you trained from `examples/training/` or from one of the model-specific example folders.
 
 ### Exercise 6: Comparing Different Models
 

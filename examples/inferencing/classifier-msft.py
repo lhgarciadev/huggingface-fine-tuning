@@ -1,9 +1,18 @@
+from pathlib import Path
+
 import pandas as pd
 from datasets import Dataset
 from transformers import AutoModelForSequenceClassification, AutoTokenizer, Trainer, TrainingArguments
 
+SCRIPT_DIR = Path(__file__).resolve().parent
+DATA_PATH = SCRIPT_DIR.parent / "loading" / "status.csv"
+MODEL_DIR = SCRIPT_DIR / "trail_classifier_msft"
+
+if not DATA_PATH.exists():
+    raise FileNotFoundError(f"Dataset not found: {DATA_PATH}")
+
 # 1. Load your CSV
-df = pd.read_csv("status.csv")
+df = pd.read_csv(DATA_PATH)
 
 # 2. Convert to HuggingFace Dataset
 dataset = Dataset.from_pandas(df)
@@ -18,7 +27,7 @@ model = AutoModelForSequenceClassification.from_pretrained(
     "microsoft/deberta-v3-large",
     num_labels=2,  # Binary classification
 )
-tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+tokenizer = AutoTokenizer.from_pretrained("microsoft/deberta-v3-large")
 
 
 # 5. Tokenize function
@@ -36,7 +45,7 @@ tokenized_datasets = split_dataset.map(tokenize_and_label, batched=True)
 
 # 6. Training arguments - FIXED: use eval_strategy not evaluation_strategy
 training_args = TrainingArguments(
-    output_dir="./trail_classifier",
+    output_dir=MODEL_DIR,
     num_train_epochs=3,
     per_device_train_batch_size=8,
     per_device_eval_batch_size=8,
@@ -58,5 +67,5 @@ trainer.train()
 print("\nTraining complete!")
 
 # 9 Save everything
-trainer.save_model("./trail_classifier_msft")
-tokenizer.save_pretrained("./trail_classifier_msft")
+trainer.save_model(MODEL_DIR)
+tokenizer.save_pretrained(MODEL_DIR)

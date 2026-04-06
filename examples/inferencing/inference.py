@@ -1,14 +1,53 @@
-# run_inference.py
-import sys
+"""Run inference with a fine-tuned trail classifier."""
+
+import argparse
+from pathlib import Path
 
 import torch
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
-model_name = sys.argv[-1]
+SCRIPT_DIR = Path(__file__).resolve().parent
+
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "model_name",
+        nargs="?",
+        default="trail_classifier",
+        help="Path to the saved model directory.",
+    )
+    return parser.parse_args()
+
+
+args = parse_args()
+model_arg = Path(args.model_name)
+if model_arg.is_absolute():
+    candidate_paths = [model_arg]
+else:
+    candidate_paths = [
+        Path.cwd() / model_arg,
+        SCRIPT_DIR / model_arg,
+        SCRIPT_DIR.parent / "training" / model_arg,
+        SCRIPT_DIR.parent / "loading" / model_arg,
+        SCRIPT_DIR.parent / "models" / model_arg,
+        SCRIPT_DIR.parent / "custom" / model_arg,
+        SCRIPT_DIR.parent / "callback" / model_arg,
+        SCRIPT_DIR.parent / "publishing" / model_arg,
+    ]
+
+for candidate in candidate_paths:
+    if candidate.exists():
+        model_path = candidate
+        break
+else:
+    raise FileNotFoundError(
+        "Model directory was not found. Tried: " + ", ".join(str(path) for path in candidate_paths)
+    )
 
 # 1. Load the trained model
-model = AutoModelForSequenceClassification.from_pretrained("./" + model_name)
-tokenizer = AutoTokenizer.from_pretrained("./" + model_name)
+model = AutoModelForSequenceClassification.from_pretrained(model_path)
+tokenizer = AutoTokenizer.from_pretrained(model_path)
 
 # 2. Setup device
 device = "cuda" if torch.cuda.is_available() else "cpu"
