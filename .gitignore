@@ -61,3 +61,5 @@ examples/transform/status.cleaned.csv
 examples/transform/status.cleaned.mixed.csv
 examples/training/trail_classifier_local/
 examples/training/trail_training_log.jsonl
+examples/callback/trail_classifier_epoch_cb/
+examples/callback/epoch_metrics.jsonl

@@ -111,7 +111,7 @@ Run the comparison:
 python fp16.py
 ```
 
-### Exercise 4: Early Stopping Callback
+### Exercise 4: Built-in Early Stopping Callback
 
 Navigate to the [examples/callback](../examples/callback/) directory.
 
@@ -144,7 +144,73 @@ trainer = Trainer(
 3. Stops training if no improvement for N epochs (patience)
 4. Loads the best model checkpoint
 
-### Exercise 5: Custom Logging
+### Exercise 5: Custom `on_epoch_end` Callback with Early Stopping
+
+Navigate to the [examples/callback](../examples/callback/) directory.
+
+Study [epoch_end_callback.py](../examples/callback/epoch_end_callback.py):
+
+```python
+from transformers import TrainerCallback
+
+class EpochEndMetricsCallback(TrainerCallback):
+    def __init__(self, log_file, patience=2, min_delta=0.0):
+        self.log_file = log_file
+        self.patience = patience
+        self.min_delta = min_delta
+        self.best_eval_loss = float("inf")
+        self.epochs_without_improvement = 0
+
+    def on_epoch_end(self, args, state, control, **kwargs):
+        # Read latest eval_loss from Trainer state and track improvement
+        # Write one JSON log line per epoch
+        # Stop training when validation loss plateaus
+        ...
+```
+
+The callback in this exercise does all of the following:
+- Implements `on_epoch_end` to track epoch metrics
+- Logs epoch metrics (`eval_loss`, `eval_accuracy`, `eval_precision`, `eval_recall`, `eval_f1`) to a file
+- Applies early stopping logic based on `eval_loss` plateau with configurable `patience` and `min_delta`
+- Stops training by setting `control.should_training_stop = True`
+
+The `Trainer` is configured with the callback in its callback list:
+
+```python
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=tokenized_datasets["train"],
+    eval_dataset=tokenized_datasets["test"],
+    compute_metrics=compute_metrics,
+    callbacks=[EpochEndMetricsCallback(...)],
+)
+```
+
+Run a short test session from the repository root:
+
+```bash
+uv run python examples/callback/epoch_end_callback.py \
+  --data examples/loading/status.csv \
+    --model-name hf-internal-testing/tiny-random-bert \
+  --epochs 4 \
+  --patience 1 \
+  --min-delta 0.0001 \
+  --max-train-samples 64 \
+  --max-eval-samples 32 \
+  --log-file examples/callback/epoch_metrics.jsonl
+```
+
+Verify callback execution at each epoch end:
+
+```bash
+cat examples/callback/epoch_metrics.jsonl
+```
+
+You should see one JSON entry per epoch with tracked metrics and a `should_stop` flag.
+Depending on the Trainer event order, the first epoch can show `eval_*` fields as `null` and subsequent epochs contain the evaluated metrics.
+
+### Exercise 6: Custom Logging with `on_log`
 
 Study [classifier-logging.py](../examples/callback/classifier-logging.py):
 
@@ -176,11 +242,12 @@ trainer = Trainer(
 
 Run with logging:
 ```bash
-python classifier-logging.py
+cd examples/callback
+uv run python classifier-logging.py
 cat training_log.txt
 ```
 
-### Exercise 6: Debugging Training
+### Exercise 7: Debugging Training
 
 Study [classifier-debug.py](../examples/callback/classifier-debug.py):
 
@@ -210,7 +277,7 @@ class DebugCallback(TrainerCallback):
 - Perfect training accuracy (100%)
 - Eval accuracy decreasing while train accuracy increases
 
-### Exercise 7: Combining Techniques
+### Exercise 8: Combining Techniques
 
 Create an optimized training configuration:
 
@@ -255,9 +322,9 @@ trainer = Trainer(
    - Training speed
    - Final accuracy
 3. Create a custom callback that:
-   - Logs metrics to a file
-   - Prints warnings for overfitting
-   - Saves the best model automatically
+    - Uses `on_epoch_end`
+    - Applies early stopping based on `eval_loss` plateau
+    - Logs epoch metrics to a file for analysis
 4. Experiment with different learning rates (1e-5, 2e-5, 5e-5) and document the impact
 
 ## Summary
